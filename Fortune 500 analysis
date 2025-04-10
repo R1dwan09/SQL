@@ -1,0 +1,30 @@
+
+-- Finding companies with health care and 20 or more days time off
+SELECT company_name,healthcare_benefits,paid_time_off_days
+FROM fortune_companies
+WHERE healthcare_benefits = 1 AND paid_time_off_days >=20;
+
+-- NON Tech companies with the highest tenure of employees 
+SELECT company_name,industry,avg_employee_tenure
+FROM fortune_companies
+WHERE industry NOT IN ('Technology')
+ORDER BY avg_employee_tenure desc;
+
+
+--Using CASE to assign all the companies in the Healthcare industry as "mother friendly workplace", "acceptable", or "abysmal" based on the maternity leave offered. 
+SELECT maternity_leave_weeks, industry,
+
+CASE	
+	WHEN maternity_leave_weeks > 10 THEN 'Great for moms'
+    WHEN maternity_leave_weeks > 9 THEN 'OK for moms'
+    ELSE 'Not for moms'
+    END AS 'Is it for Moms?'
+FROM fortune_companies
+WHERE industry = 'Healthcare';
+
+-- Industries with AVG Revenues of 10 billion +
+SELECT company_name,industry,ROUND(AVG(revenue),1) AS Average_revenue
+FROM fortune_companies
+GROUP BY industry
+HAVING Average_revenue > 100;
+
